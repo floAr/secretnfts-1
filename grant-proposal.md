@@ -1,14 +1,7 @@
 # Secret NFTs Grant Proposal
 
-
-# Example Team Name
-
 ## Project Description
-This is an **example** application for a grant programme: **Secret Network Grant Program: Secret Apps**
 
-We intend to create a staking derivatives on Secret Network. More implementations will increase capital efficiecy in Secret Network and enable SCRT staked to secure Secret Network to be used in other Secret Network applications such as DeFi, governance and games.
-
-Our team has been closely following Ethereum DeFi and Secret Network in the last year, and are active in the chat channels. Needless to say, we are really excited to see this project evolve.
 
 ## Problem / Solution
 SCRT staked to secure Secret Network cannot be used in Secret Network ecosystem, creating a capital inefficiency. Staking derivatives (dxSCRT) allows SCRT holders to...
