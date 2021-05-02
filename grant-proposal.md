@@ -31,9 +31,7 @@ The main KPIs for Secret Network is TVL (privacy value add to other blockchain e
 * https://example.com
 
 ## Team's experience
-* John has X years coding experience. Mostly doing smart contract development. He worked for ABC.
-* Alice has...
-* Bob has...
+
 
 We've been a team for 2 years, and....
 
