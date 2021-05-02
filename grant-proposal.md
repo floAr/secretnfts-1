@@ -1,5 +1,5 @@
 # Secret NFTs Grant Proposal
-Platform for Secret NFTs
+
 
 # Example Team Name
 
