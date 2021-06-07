@@ -32,13 +32,14 @@ export default function Tabs({ tabs, selectedIndex, onChange }: Props) {
         )}
       >
         {tabs.map((tab, index) => (
-          <div
-            onClick={() => onChange(index)}
-            className={cx(css`
+          <React.Fragment>
+
+            <div
+              onClick={() => onChange(index)}
+              className={cx(css`
               display: flex;
               flex-direction: column;
               cursor: pointer;
-
               & > span {
                 transition: width 0.4s;
                 width: ${index === selectedIndex ? "70%" : "0px"};
@@ -50,18 +51,21 @@ export default function Tabs({ tabs, selectedIndex, onChange }: Props) {
                 }
               }
             `)}
-          >
-            <Text
-              size={SIZE.title}
-              color={
-                index === selectedIndex ? theme.color.black : theme.color.grey
-              }
             >
-              {tab.name}
-            </Text>
-            <span
-              className={cx(css`
-                height: 3px;
+              <Text
+                size={SIZE.title}
+                weight={"600"}
+                spacing={"0.04em"}
+                color={
+                  index === selectedIndex ? theme.color.black : theme.color.grey
+                }
+              >
+                {tab.name}
+              </Text>
+
+              <span
+                className={cx(css`
+                height: 4px;
                 width: 70%;
                 margin-top: ${theme.spacing.small}px;
                 background: linear-gradient(
@@ -70,11 +74,16 @@ export default function Tabs({ tabs, selectedIndex, onChange }: Props) {
                   ${theme.color.pink}
                 );
               `)}
-            ></span>
-          </div>
+              ></span>
+            </div>
+
+            {index + 1 < tabs.length && <div className={cx(css`height: 30px; width: 1px; background-color: ${theme.color.grey};`)}></div>}
+          </React.Fragment>
         ))}
       </div>
-      {tabs[Number(selectedIndex)].children}
+      <div className={cx(css`padding: ${theme.spacing.large}px;`)}>
+        {tabs[Number(selectedIndex)].children}
+      </div>
     </div>
   );
 }

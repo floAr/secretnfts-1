@@ -2,10 +2,10 @@ import React from 'react';
 import cx from "classnames";
 import { css } from '@emotion/css'
 import { Link } from "react-router-dom";
-import Icon from "../components/icon";
-import Logo from "../components/logo";
-import Text from "../components/text";
-import { SIZE } from "../components/text";
+import Icon from "./icon";
+import Logo from "./logo";
+import Text from "./text";
+import { SIZE } from "./text";
 import { ThemeContext } from '../contexts/ThemeContext';
 import twitterIcon from "../images/icons/twitter.svg"
 import githubIcon from "../images/icons/github.svg"

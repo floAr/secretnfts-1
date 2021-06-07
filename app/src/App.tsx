@@ -3,10 +3,10 @@ import React from 'react';
 import cx from "classnames";
 import { css } from '@emotion/css'
 import { Route, withRouter, RouteComponentProps, useHistory } from "react-router-dom";
-import Header from "./containers/header";
-import Footer from "./containers/footer";
-import Home from "./containers/home";
-import Splash from "./containers/splash";
+import Header from "./components/header";
+import Footer from "./components/footer";
+import Home from "./containers/home/index";
+import Splash from "./containers/splash/index";
 import { WalletContext } from "./contexts/WalletContext";
 import { ThemeContext } from './contexts/ThemeContext';
 import { connect } from "./client";
@@ -41,7 +41,6 @@ function App() {
       display: flex;
       flex-direction: column;
       color: ${theme.color.black};
-      font-family: 'Poppins';
     `)}>
 
 
@@ -49,7 +48,7 @@ function App() {
 
 
       <div className={cx(css`
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;

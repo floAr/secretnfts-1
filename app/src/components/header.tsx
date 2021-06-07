@@ -4,9 +4,10 @@ import { css } from '@emotion/css'
 import { Link } from "react-router-dom";
 import keplrIcon from "../images/icons/keplr.svg"
 import scrtIcon from "../images/icons/scrt.svg"
-import Address from "../components/address"
-import Logo from "../components/logo"
-import Button from "../components/button"
+import Address from "./address"
+import Logo from "./logo"
+import Button from "./button"
+import Text, { SIZE } from "./text"
 import { ThemeContext } from '../contexts/ThemeContext';
 
 import { HeaderContext } from "../contexts/HeaderContext";
@@ -32,6 +33,7 @@ export default function Header({
             justify-content: space-between;
             color: ${theme.color.black};
             background-color: ${theme.color.white}b5;
+            backdrop-filter: blur(5px);
             height: 100px;
             padding: 12px 100px;
             box-sizing: border-box;
@@ -56,7 +58,7 @@ export default function Header({
                             line-height: 22px;
                             color: ${theme.color.black};
                         `)}>
-                        {link.text}
+                        <Text size={SIZE.title} spacing={"0.04em"} color={theme.color.black}>{link.text}</Text>
                     </Link>)}
             </div>
 

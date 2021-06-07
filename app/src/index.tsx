@@ -8,6 +8,7 @@ import { HeaderProvider } from "./contexts/HeaderContext";
 import { WalletProvider } from "./contexts/WalletContext";
 import { SecretProvider } from "./contexts/SecretContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -16,9 +17,11 @@ ReactDOM.render(
       <SecretProvider>
         <WalletProvider>
           <HeaderProvider>
-            <React.Fragment>
-              <App />
-            </React.Fragment>
+            <LanguageProvider>
+              <React.Fragment>
+                <App />
+              </React.Fragment>
+            </LanguageProvider>
           </HeaderProvider>
         </WalletProvider>
       </SecretProvider>

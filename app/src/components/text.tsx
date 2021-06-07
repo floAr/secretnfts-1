@@ -15,6 +15,8 @@ export enum SIZE {
 type Props = {
   size?: SIZE;
   weight?: string;
+  spacing?: string,
+  lineHeight?: string,
   color?: string;
   gradientOne?: string;
   gradientTwo?: string;
@@ -26,6 +28,8 @@ export default function Text({
   size = SIZE.normal,
   color,
   weight,
+  spacing,
+  lineHeight,
   gradientOne,
   gradientTwo,
   style,
@@ -42,6 +46,8 @@ export default function Text({
           color: ${color || theme.color.white};
           font-size: ${size};
           font-weight: ${weight || 500};
+          letter-spacing: ${spacing || `normal`};
+          line-height: ${lineHeight || `normal`};
           background: ${withGradient
             ? `linear-gradient(to right, ${gradientOne}, ${gradientTwo})`
             : `transparent`};

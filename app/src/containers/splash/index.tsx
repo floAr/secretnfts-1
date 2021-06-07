@@ -1,8 +1,8 @@
 import React from 'react';
 import cx from "classnames";
 import { css } from '@emotion/css'
-import Loader from '../components/loader'
-import { ThemeContext } from '../contexts/ThemeContext';
+import Loader from '../../components/loader'
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 export default function Splash() {
     const [theme] = React.useContext(ThemeContext)

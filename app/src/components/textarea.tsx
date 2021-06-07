@@ -44,7 +44,7 @@ export default function Textarea({
           outline: none;
           resize: ${resize ? 'resize' : 'none'};
           transition: 0.5s ease;
-          font-family: 'Poppins';
+          font-family: 'inherit';
           ::placeholder { 
             color: ${colorPlaceholder || theme.color.black};
             opacity: 0.9;

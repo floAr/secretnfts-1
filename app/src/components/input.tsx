@@ -53,7 +53,7 @@ export default function Input({
           color: ${color || `white`};
           outline: none;
           transition: 0.5s ease;
-          font-family: 'Poppins';
+          font-family: 'inherit';
           font-size: 24px;
           background-color:${bgColor || `rgba(0, 0, 0, .1)`};
           
