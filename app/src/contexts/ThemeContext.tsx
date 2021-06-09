@@ -23,14 +23,21 @@ interface Spacing {
   large: number
 }
 
-interface BorderRadii {
+interface BorderRadius {
   medium: number
+}
+
+interface Breakpoint {
+  mobileS: number
+  mobileM: number
+  tablet: number
 }
 
 interface Theme {
   color: Color
   spacing: Spacing
-  borderRadii: BorderRadii
+  borderRadius: BorderRadius
+  breakpoint: Breakpoint
 }
 
 const theme: Theme = {
@@ -55,8 +62,13 @@ const theme: Theme = {
     medium: 18,
     large: 32,
   },
-  borderRadii: {
+  borderRadius: {
     medium: 16,
+  },
+  breakpoint: {
+    mobileS: 375,
+    mobileM: 425,
+    tablet: 768,
   },
 }
 
