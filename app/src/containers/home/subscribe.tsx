@@ -4,10 +4,14 @@ import { memo, useContext, useState } from 'react'
 
 import Button from '../../components/button'
 import Input from '../../components/input'
+import { LanguageContext } from '../../contexts/LanguageContext'
 import { ThemeContext } from '../../contexts/ThemeContext'
+import { dictionary } from '../../dictionary'
 
 const Subscribe = () => {
   const [theme] = useContext(ThemeContext)
+  const [language] = useContext(LanguageContext)
+
   const [email, setEmail] = useState('')
 
   const onClickSubscribe = () => {}
@@ -49,7 +53,7 @@ const Subscribe = () => {
           }
         `)}
       >
-        Find out more 🎉
+        {dictionary.SUBSCRIBE_TITLE[language]}
       </h1>
       <p
         className={cx(css`
@@ -69,8 +73,7 @@ const Subscribe = () => {
           }
         `)}
       >
-        Subscribe to the newsletter to hear about Secret NFTs updates and
-        events.
+        {dictionary.SUBSCRIBE_TEXT[language]}
       </p>
       <Input
         placeholder="Email"
@@ -87,7 +90,7 @@ const Subscribe = () => {
           margin-top: ${theme.spacing.medium}px;
         `}
       >
-        Discover SNFTs
+        {dictionary.SUBSCRIBE_BUTTON_TEXT[language]}
       </Button>
     </div>
   )
