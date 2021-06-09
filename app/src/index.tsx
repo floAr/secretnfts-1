@@ -14,8 +14,9 @@ ReactDOM.render(
   <BrowserRouter>
 
     <ThemeProvider>
-      <SecretProvider>
-        <WalletProvider>
+      <WalletProvider>
+
+        <SecretProvider>
           <HeaderProvider>
             <LanguageProvider>
               <React.Fragment>
@@ -23,8 +24,9 @@ ReactDOM.render(
               </React.Fragment>
             </LanguageProvider>
           </HeaderProvider>
-        </WalletProvider>
-      </SecretProvider>
+        </SecretProvider>
+
+      </WalletProvider>
     </ThemeProvider>
   </BrowserRouter>,
   document.getElementById('root')

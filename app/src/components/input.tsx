@@ -2,13 +2,14 @@ import React, { ReactElement } from 'react'; // we need this to make JSX compile
 import cx from "classnames";
 import { css } from '@emotion/css'
 import { ThemeContext } from '../contexts/ThemeContext';
+import Text, { SIZE } from './text'
 
-type Props = { label?: string, plaveholder?: string; value: any; required?: boolean; disabled?: boolean; onChange: Function; style?: any; note?: string;[x: string]: any, colorPlaceholder?: any, color?: any, bgColor?: any, bgColorFocus?: any }
+type Props = { label?: string, placeholder?: string; value: any; required?: boolean; disabled?: boolean; onChange: Function; style?: any; note?: string;[x: string]: any, colorPlaceholder?: any, color?: any, bgColor?: any, bgColorFocus?: any }
 
 
 export default function Input({
   label,
-  plaveholder = "",
+  placeholder = "",
   required,
   value,
   onChange,
@@ -27,42 +28,41 @@ export default function Input({
   return (
     <div className={cx([css`
       display: flex; 
-      flex-direction: row; 
+      flex-direction: column; 
       width: 100%; 
-      border-bottom: 1px solid ${theme.color.purple};
-      background-color:${bgColor || `rgba(0, 0, 0, .1)`};
-      align-items: center;
-      padding: 5px;
 
     `, style])}>
+      <Text color={theme.color.black} weight={400} size={SIZE.label} style={cx(css`margin-bottom: ${theme.spacing.small}px;`)}>{label}</Text>
+
       <input
         required={required}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
-        placeholder={plaveholder}
+        placeholder={placeholder}
         className={cx([css`
-          border: none;
           box-sizing: border-box;
           min-width: 200px;
           height: 40px;
           width: 100%;
-          padding: 0px 10px;
+          padding: 0 20px;
           
-          border-radius: 3px;
-          color: ${color || `white`};
+          color: ${color || theme.color.black};
           outline: none;
           transition: 0.5s ease;
-          font-family: 'inherit';
-          font-size: 24px;
-          background-color:${bgColor || `rgba(0, 0, 0, .1)`};
+          font-family: 'Graphik';
+          font-size: 16px;
+          height: 60px;
+          background-color: ${bgColor || `#F7F7FC`}; 
+          border: 1px solid ${theme.color.greylight}; 
+          border-radius: 16px;
           
           ::placeholder { 
             color: ${colorPlaceholder || theme.color.black};
-            opacity: 0.9;
+            opacity: 0.6;
           }
           :focus { 
-            background-color:${bgColorFocus || `rgba(0, 0, 0, .4)`};
+            background-color:${bgColorFocus || `rgba(0, 0, 0, .05)`};
           }
 
           ::-webkit-outer-spin-button,
@@ -78,7 +78,6 @@ export default function Input({
       `])}
         {...props}
       />
-      <div className={cx(css`font-size: 16px; color: ${theme.color.black};`)}>{label}</div>
     </div>)
 }
 

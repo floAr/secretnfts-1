@@ -14,9 +14,9 @@ export enum SIZE {
 
 type Props = {
   size?: SIZE;
-  weight?: string;
+  weight?: string | number;
   spacing?: string,
-  lineHeight?: string,
+  lineHeight?: string | number,
   color?: string;
   gradientOne?: string;
   gradientTwo?: string;
@@ -25,7 +25,7 @@ type Props = {
 };
 
 export default function Text({
-  size = SIZE.normal,
+  size,
   color,
   weight,
   spacing,
@@ -43,8 +43,9 @@ export default function Text({
     <div
       className={cx([
         css`
+          width: fit-content;
           color: ${color || theme.color.white};
-          font-size: ${size};
+          font-size: ${size || SIZE.normal};
           font-weight: ${weight || 500};
           letter-spacing: ${spacing || `normal`};
           line-height: ${lineHeight || `normal`};

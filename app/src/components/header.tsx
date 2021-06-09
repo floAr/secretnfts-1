@@ -2,7 +2,6 @@ import React from 'react'; // we need this to make JSX compile
 import cx from "classnames";
 import { css } from '@emotion/css'
 import { Link } from "react-router-dom";
-import keplrIcon from "../images/icons/keplr.svg"
 import scrtIcon from "../images/icons/scrt.svg"
 import Address from "./address"
 import Logo from "./logo"
@@ -10,7 +9,6 @@ import Button from "./button"
 import Text, { SIZE } from "./text"
 import { ThemeContext } from '../contexts/ThemeContext';
 
-import { HeaderContext } from "../contexts/HeaderContext";
 import { WalletContext, WalletFetcher } from "../contexts/WalletContext";
 
 type LinkObject = { text: string, path: string }
@@ -21,7 +19,6 @@ export default function Header({
 }: Props) {
 
 
-    const [header, setHeader] = React.useContext(HeaderContext)
     const [wallet, setWallet] = React.useContext(WalletContext)
     const [theme] = React.useContext(ThemeContext)
 
@@ -34,7 +31,7 @@ export default function Header({
             color: ${theme.color.black};
             background-color: ${theme.color.white}b5;
             backdrop-filter: blur(5px);
-            height: 100px;
+            height: 70px;
             padding: 12px 100px;
             box-sizing: border-box;
             -webkit-box-shadow: 0px 2px 10px -1px #111111; 
@@ -43,7 +40,7 @@ export default function Header({
 
 
             <Link to="/" className={cx(css`text-decoration:none; color:inherit; margin-right: ${theme.spacing.large}px;`)}>
-                <Logo width={60} />
+                <Logo width={40} />
             </Link>
             <div className={cx(css` font-size: 16px; display: flex; flex-direction: row; letter-spacing: 1px; align-items: center;`)} >
                 {links.map(link =>
@@ -54,11 +51,8 @@ export default function Header({
                             margin-right:${theme.spacing.large}px; 
                             cursor: pointer;
                             text-decoration: none; 
-                            font-size: 20px;
-                            line-height: 22px;
-                            color: ${theme.color.black};
                         `)}>
-                        <Text size={SIZE.title} spacing={"0.04em"} color={theme.color.black}>{link.text}</Text>
+                        <Text size={SIZE.label} spacing={"0.04em"} color={theme.color.black}>{link.text}</Text>
                     </Link>)}
             </div>
 

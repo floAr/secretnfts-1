@@ -1,7 +1,7 @@
 import { css } from '@emotion/css'
 import cx from 'classnames'
 import React from 'react'
-
+import CreateNFT from "./createnft";
 import { ThemeContext } from '../../contexts/ThemeContext'
 import Contributors from './contributors'
 import Header from './header'
@@ -22,6 +22,7 @@ export default function Home() {
     >
       <Header />
       <Tabs />
+      <CreateNFT />
       <Contributors />
       <Subscribe />
     </div>

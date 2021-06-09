@@ -27,16 +27,13 @@ export default function MyTabs() {
 
 
     const renderTabSectionInfo = (title: string, info: string, index: number) => {
-        const selected = index === selectedInfo
+        const selected = true
         return <div className={cx(css`
                 padding: ${theme.spacing.small}px;
                 display: flex; 
                 flex-direction: column; 
-                background-color: ${selected ? `white` : `transparent`};
-                box-shadow: ${selected ? `0px 4px 7px -2px ${theme.color.black}50` : `none`};
-                cursor: pointer;
+
             `)}
-            onClick={() => setInfo(index)}
         >
             <Text
                 size={SIZE.label}
@@ -46,20 +43,22 @@ export default function MyTabs() {
             <Text
                 style={css`margin-top: ${theme.spacing.small}px;`}
                 size={SIZE.normal}
-                lineHeight={"16px"}
+                lineHeight={"18px"}
+                spacing={"0.07em"}
+
                 color={selected ? theme.color.black : theme.color.grey}>{info}
             </Text>
         </div>;
     };
 
     const renderTab = (sections: Array<any>, image: any) => {
-        return <div className={cx(css`display: flex; width: 100%;justify-content: space-between;`)}>
+        return <div className={cx(css`display: flex; box-sizing: border-box; width: 100%;justify-content: space-between;`)}>
             <div className={cx(css`
                 display: flex; 
                 flex-direction: column; 
                 width: 30%; 
                 min-width: 350px;
-                
+                min-height: 474px;
                 & > * {
                 margin-bottom: ${theme.spacing.large}px;
                 }
@@ -68,7 +67,7 @@ export default function MyTabs() {
                     {renderTabSectionInfo(section.title, section.text, index)}
                 </div>)}
             </div>
-            <img className={cx(css`width: 60%; padding-left: ${theme.spacing.large}px;`)} src={image} alt={`${selectedInfo}image`} />
+            <img className={cx(css`height: 400px; padding-left: ${theme.spacing.large}px;`)} src={image} alt={`${selectedInfo}image`} />
         </div>
     }
 
@@ -163,22 +162,22 @@ export default function MyTabs() {
                 size={SIZE.section}
                 style={css(`margin-bottom: 50px`)}
             >
-                Why Privacy Matters for NFTs?
+                {dictionary.WHY_NFT[language]}
             </Text>
             <Tabs
                 selectedIndex={selectedTab}
                 tabs={[
-                    { name: "Art & Collectibles", children: renderArtTab() },
-                    { name: "Gaming Industry", children: renderGameTab() },
-                    { name: "Real-Life Application", children: renderLifeTab() },
-                    { name: "Digital Media", children: renderDigitalTab() },
+                    { name: dictionary.ART_COLLECTIBLES_TITLE[language], children: renderArtTab() },
+                    { name: dictionary.GAMING_TITLE[language], children: renderGameTab() },
+                    { name: dictionary.REAL_LIFE_TITLE[language], children: renderLifeTab() },
+                    { name: dictionary.DIGITAL_MEDIA_TITLE[language], children: renderDigitalTab() },
                 ]}
                 onChange={(index: number) => setTab(index)}
             />
 
-            <Button style={css`margin-top: 50px;`} onClick={() =>
+            <Button onClick={() =>
                 window.open('https://www.binance.com/en/trade/SCRT_BTC?type=spot', '_blank')
-            }>Buy SCRT</Button>
+            }>{dictionary.BUY_SCRT[language]}</Button>
         </div>
     );
 }

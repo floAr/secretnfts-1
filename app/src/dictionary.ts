@@ -3,6 +3,14 @@ interface dictionary {
 }
 
 export const dictionary: dictionary = {
+    WHY_NFT: {
+        en: "Why Privacy Matters for NFTs?",
+        pt: ""
+    },
+    BUY_SCRT: {
+        en: "Buy SCRT",
+        pt: ""
+    },
     ART_COLLECTIBLES_TITLE: {
         en: "Art & Collectibles",
         pt: ""
@@ -140,6 +148,41 @@ export const dictionary: dictionary = {
         en: `Tickets and event tokens can be created that still
         protect private metadata associating a person to a
         specific location`,
+        pt: ""
+    },
+
+    STEP0: {
+        en: `Step 1`,
+        pt: ""
+    },
+    STEP1: {
+        en: `Step 2`,
+        pt: ""
+    },
+    STEP2: {
+        en: `Step 3`,
+        pt: ""
+    },
+    STEP3: {
+        en: `Step 4`,
+        pt: ""
+    },
+
+    STEP0_TEXT: {
+        en: `Create a collection for your nfts`,
+        pt: ""
+    },
+
+    STEP1_TEXT: {
+        en: `Upload a media file to your NFT`,
+        pt: ""
+    },
+    STEP2_TEXT: {
+        en: `Name, provide a description and add properties to your NFT`,
+        pt: ""
+    },
+    STEP3_TEXT: {
+        en: `*Optional, Protect your NFT`,
         pt: ""
     },
 }

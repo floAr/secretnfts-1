@@ -2,14 +2,16 @@ import React from 'react'; // we need this to make JSX compile
 import cx from "classnames";
 import { css } from '@emotion/css'
 import { ThemeContext } from '../contexts/ThemeContext';
+import Text, { SIZE } from './text'
 
-type Props = { label: string; value: any; required?: boolean; disabled?: boolean; onChange: Function; style?: any; note?: string;[x: string]: any, colorPlaceholder?: any, color?: any, bgColor?: any, bgColorFocus?: any, resize?: boolean }
+type Props = { label?: string, placeholder?: string; value: any; required?: boolean; disabled?: boolean; onChange: Function; style?: any; note?: string;[x: string]: any, colorPlaceholder?: any, color?: any, bgColor?: any, bgColorFocus?: any }
 
 
 export default function Textarea({
   label,
   required,
   value,
+  placeholder,
   onChange,
   disabled,
   note,
@@ -21,42 +23,63 @@ export default function Textarea({
   resize,
   ...props
 }: Props) {
+
   const [theme] = React.useContext(ThemeContext)
 
-
   return (
-    <div className={cx(css`display: flex; flex-direction: column; width: 100%;`)}>
+    <div className={cx([css`
+      display: flex; 
+      flex-direction: column; 
+      width: 100%; 
+
+    `, style])}>
+      <Text color={theme.color.black} weight={400} size={SIZE.label} style={cx(css`margin-bottom: ${theme.spacing.small}px;`)}>{label}</Text>
+
       <textarea
         required={required}
         onChange={(e) => onChange(e.target.value)}
         value={value}
         disabled={disabled}
-        placeholder={label}
+        placeholder={placeholder}
         className={cx([css`
-          border: 1px solid ${theme.color.purple};
           box-sizing: border-box;
+          resize: ${resize || `none`};
           min-width: 200px;
-          min-height: 100px;
-          padding: 10px;
-          background-color:${bgColor || `rgba(0, 0, 0, .1)`};
-          border-radius: 3px;
-          color: ${color || `white`};
+          height: 200px;
+          width: 100%;
+          padding: 20px;
+          
+          color: ${color || theme.color.black};
           outline: none;
-          resize: ${resize ? 'resize' : 'none'};
           transition: 0.5s ease;
-          font-family: 'inherit';
+          font-family: 'Graphik';
+          font-size: 16px;
+          background-color: ${bgColor || `#F7F7FC`}; 
+          border: 1px solid ${theme.color.greylight}; 
+          border-radius: 16px;
+          
           ::placeholder { 
             color: ${colorPlaceholder || theme.color.black};
-            opacity: 0.9;
+            opacity: 0.6;
           }
           :focus { 
-            border: 1px solid ${theme.color.pink};
-            background-color:${bgColorFocus || `rgba(0, 0, 0, .2)`};
+            background-color:${bgColorFocus || `rgba(0, 0, 0, .05)`};
           }
-      `, style])}
+
+          ::-webkit-outer-spin-button,
+          ::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+
+          [type=number] {
+            -moz-appearance: textfield;
+          }
+
+      `])}
         {...props}
       />
-
     </div>)
 }
+
 
