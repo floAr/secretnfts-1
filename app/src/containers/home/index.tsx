@@ -5,6 +5,7 @@ import React from 'react'
 import { ThemeContext } from '../../contexts/ThemeContext'
 import Contributors from './contributors'
 import Header from './header'
+import Subscribe from './subscribe'
 import Tabs from './tabs'
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
       <Header />
       <Tabs />
       <Contributors />
+      <Subscribe />
     </div>
   )
 }
