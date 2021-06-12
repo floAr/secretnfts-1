@@ -1,8 +1,8 @@
 body {
   margin: 0;
-  font-family:  'Graphik', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Graphik', 'Poppins', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -89,4 +89,52 @@ body {
   font-style: bold;
   font-weight: 700;
   src: url('./fonts/Poppins-Bold.ttf');
+}
+
+.notification-container {
+  width: 450px !important;
+}
+
+.notification {
+  border-radius: 5px !important;
+  box-shadow: none !important;
+  color: #14142b !important;
+  font-size: 16px !important;
+  line-height: unset !important;
+  opacity: 1 !important;
+  padding: 16px 24px 16px 48px !important;
+}
+
+.notification::before {
+  height: 24px !important;
+  width: 24px !important;
+}
+
+.notification-success {
+  background-color: #e0f6dc !important;
+}
+.notification-success::before {
+  color: #189a00;
+}
+
+.notification-info {
+  background-color: #f4f4f4 !important;
+}
+.notification-info::before {
+  color: #14142b !important;
+}
+
+.notification-warning {
+  background-color: #fff4cf !important;
+  color: #b66709 !important;
+}
+.notification-warning::before {
+  color: #b66709;
+}
+
+.notification-error {
+  background-color: #fde6e9 !important;
+}
+.notification-error::before {
+  color: #ed2e7e;
 }
