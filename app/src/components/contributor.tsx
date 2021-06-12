@@ -4,6 +4,7 @@ import { FC, memo, useContext } from 'react'
 
 import { ThemeContext } from '../contexts/ThemeContext'
 import Icon from './icon'
+import Text, { SIZE } from './text'
 
 interface Social {
   link: string
@@ -53,11 +54,12 @@ const ContributorCard: FC<Props> = ({ name, image, position, socials }) => {
           width: 85%;
         `)}
       />
-      <h3
-        className={cx(css`
-          color: ${theme.color.blacklight};
-          font-size: 24px;
-          font-weight: 500;
+      <Text
+        size={SIZE.title}
+        color={theme.color.blacklight}
+        weight={500}
+        style={css`
+          margin: ${theme.spacing.medium}px 0;
 
           @media only screen and (max-width: ${theme.breakpoint.tablet}px) {
             font-size: 16px;
@@ -67,18 +69,16 @@ const ContributorCard: FC<Props> = ({ name, image, position, socials }) => {
             margin: ${theme.spacing.small}px 0;
             font-size: 14px;
           }
-        `)}
+        `}
       >
         {name}
-      </h3>
-      <p
-        className={cx(css`
-          color: ${theme.color.blacklight};
-          font-size: 16px;
-          font-weight: 400;
-          letter-spacing: 0.15px;
-          margin: 0;
-
+      </Text>
+      <Text
+        size={SIZE.label}
+        color={theme.color.blacklight}
+        spacing="0.15px"
+        weight={400}
+        style={css`
           @media only screen and (max-width: ${theme.breakpoint.tablet}px) {
             font-size: 14px;
           }
@@ -86,18 +86,17 @@ const ContributorCard: FC<Props> = ({ name, image, position, socials }) => {
           @media only screen and (max-width: ${theme.breakpoint.mobileM}px) {
             font-size: 12px;
           }
-        `)}
+        `}
       >
         {position}
-      </p>
+      </Text>
       <div
         className={cx(css`
-          /* border: 1px solid red; */
           align-items: center;
           column-gap: ${theme.spacing.medium}px;
           display: flex;
           justify-content: center;
-          margin-top: 24px;
+          flex: 1;
           width: 100%;
 
           @media only screen and (max-width: ${theme.breakpoint.tablet}px) {

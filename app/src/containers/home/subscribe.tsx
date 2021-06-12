@@ -4,6 +4,7 @@ import { memo, useContext, useState } from 'react'
 
 import Button from '../../components/button'
 import Input from '../../components/input'
+import Text, { SIZE } from '../../components/text'
 import { LanguageContext } from '../../contexts/LanguageContext'
 import { ThemeContext } from '../../contexts/ThemeContext'
 import { dictionary } from '../../dictionary'
@@ -37,12 +38,11 @@ const Subscribe = () => {
         }
       `)}
     >
-      <h1
-        className={cx(css`
-          color: ${theme.color.black};
+      <Text
+        color={theme.color.black}
+        weight={500}
+        style={css`
           font-size: 36px;
-          font-weight: 500;
-          margin: 0;
 
           @media only screen and (max-width: ${theme.breakpoint.tablet}px) {
             font-size: 30px;
@@ -51,13 +51,14 @@ const Subscribe = () => {
           @media only screen and (max-width: ${theme.breakpoint.mobileM}px) {
             font-size: 24px;
           }
-        `)}
+        `}
       >
         {dictionary.SUBSCRIBE_TITLE[language]}
-      </h1>
-      <p
-        className={cx(css`
-          color: ${theme.color.black};
+      </Text>
+      <Text
+        color={theme.color.black}
+        weight={400}
+        style={css`
           font-size: 16px;
           max-width: 400px;
           margin: ${theme.spacing.medium}px 0;
@@ -71,10 +72,10 @@ const Subscribe = () => {
           @media only screen and (max-width: ${theme.breakpoint.mobileM}px) {
             font-size: 12px;
           }
-        `)}
+        `}
       >
         {dictionary.SUBSCRIBE_TEXT[language]}
-      </p>
+      </Text>
       <Input
         placeholder="Email"
         value={email}
