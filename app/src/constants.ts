@@ -1,13 +1,58 @@
 export const UNLOCK_TOKEN = 'Unlock';
 export const FIX_VIEWINGKEY = 'Fix';
 export const LOADING = "loading"
+export const WITH_VIEWINGKEY = "with_viewingkey"
 
+export enum PROPERTY_TYPE {
+    PUBLIC = "public",
+    PROTECTED = "protected",
+    PRIVATE = "private",
+}
+export interface PROPERTY {
+    label: string,
+    value: string,
+    type: PROPERTY_TYPE
+}
+export interface NFT {
+    id: string,
+    name: string,
+    description?: string,
+    collection: string,
+    owner: string,
+    minter: string,
+    image: string,
+    thumbnail?: string,
+    private_properties: any,
+    protected_properties: string[],
+    private_metadata: string,
+    public_metadata: string,
+    public_properties: any,
+    loading: boolean
+}
+export interface COLLECTION {
+    name: string,
+    symbol: string,
+    address: string,
+    from: string,
+    nfts: NFT[],
+    last_requested_by: string
+}
+export interface SELECT_OPTION {
+    label: string,
+    value: string,
+}
 export interface TOKEN {
     symbol: string,
     icon: string,
     name: string,
     address: string,
     decimals: number
+}
+
+export interface GET_COLLECTIONS_PARAMS {
+    from?: string,
+    limit?: number,
+    ascending?: boolean,
 }
 
 export const tokens: TOKEN[] = [
@@ -41,3 +86,39 @@ export const tokens: TOKEN[] = [
     },
 
 ]
+
+export const defaultNFT: NFT = {
+    name: "",
+    collection: "",
+    id: "",
+    image: "",
+    minter: "",
+    owner: "",
+    private_metadata: "",
+    public_metadata: "",
+    description: "",
+    private_properties: {},
+    protected_properties: [],
+    public_properties: {},
+    loading: false
+}
+
+export const defaultCollection: COLLECTION = {
+    address: "",
+    name: "",
+    symbol: "",
+    from: "",
+    nfts: [],
+    last_requested_by: ""
+}
+
+export const customFees = {
+    init: {
+        amount: [{ amount: '300000', denom: 'uscrt' }],
+        gas: '300000',
+    },
+    exec: {
+        amount: [{ amount: '500000', denom: 'uscrt' }],
+        gas: '500000',
+    },
+}

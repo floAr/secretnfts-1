@@ -1,8 +1,9 @@
 import React from 'react';
 import { formatWithSixDecimals, divDecimals } from '../utils';
-import { tokens, UNLOCK_TOKEN, FIX_VIEWINGKEY, LOADING } from "../constants"
+import { tokens, WITH_VIEWINGKEY, UNLOCK_TOKEN, FIX_VIEWINGKEY, LOADING, customFees } from "../constants"
 import { SigningCosmWasmClient } from 'secretjs';
 import { Response } from '../interfaces'
+import { resolve } from 'url';
 
 require('dotenv').config()
 
@@ -15,6 +16,7 @@ interface Balances {
     [symbol: string]: Balance
 }
 
+
 type WalletState = {
     address: string,
     balances: Balances,
@@ -24,12 +26,14 @@ type WalletState = {
     keplrCli?: any;
     secretjs?: any;
     loadingCli: boolean;
+    isKeplrCli: boolean
 };
 
 const defaultBalances: Balances = {}
 tokens.forEach(token => {
     defaultBalances[token.symbol] = { rawAmount: 0, amount: LOADING }
 })
+
 
 const defaultState = {
     address: "",
@@ -38,119 +42,15 @@ const defaultState = {
     connected: false,
     loadingWallet: true,
     loadingCli: true,
+    isKeplrCli: true,
     keplrCli: null,
     secretjs: null
 }
 
-type WalletParams = [WalletState, React.Dispatch<React.SetStateAction<WalletState>>];
+
+type WalletParams = [WalletState, Function];
 const WalletContext = React.createContext<WalletParams>([defaultState, () => null]);
 
-
-const WalletFetcher = async (keplrCli: any) => {
-
-    // Setup Secret Testnet (not needed on mainnet)
-    if (process.env.REACT_APP_ENV !== 'MAINNET') {
-        await keplrCli.experimentalSuggestChain({
-            chainId: process.env.REACT_APP_CHAIN_ID,
-            chainName: process.env.REACT_APP_CHAIN_ID,
-            rpc: process.env.REACT_APP_RPC,
-            rest: process.env.REACT_APP_REST,
-            bip44: {
-                coinType: 529,
-            },
-            coinType: 529,
-            stakeCurrency: {
-                coinDenom: 'SCRT',
-                coinMinimalDenom: 'uscrt',
-                coinDecimals: 6,
-            },
-            bech32Config: {
-                bech32PrefixAccAddr: 'secret',
-                bech32PrefixAccPub: 'secretpub',
-                bech32PrefixValAddr: 'secretvaloper',
-                bech32PrefixValPub: 'secretvaloperpub',
-                bech32PrefixConsAddr: 'secretvalcons',
-                bech32PrefixConsPub: 'secretvalconspub',
-            },
-            currencies: [
-                {
-                    coinDenom: 'SCRT',
-                    coinMinimalDenom: 'uscrt',
-                    coinDecimals: 6,
-                },
-            ],
-            feeCurrencies: [
-                {
-                    coinDenom: 'SCRT',
-                    coinMinimalDenom: 'uscrt',
-                    coinDecimals: 6,
-                },
-            ],
-            gasPriceStep: {
-                low: 0.1,
-                average: 0.25,
-                high: 0.4,
-            },
-            features: ['secretwasm'],
-        });
-    }
-
-    await keplrCli.enable(process.env.REACT_APP_CHAIN_ID);
-
-    // @ts-ignore
-    const keplrOfflineSigner = window.getOfflineSigner(process.env.REACT_APP_CHAIN_ID);
-    const accounts = await keplrOfflineSigner.getAccounts();
-    const address = accounts[0].address;
-
-    const secretjs = new SigningCosmWasmClient(
-        process.env.REACT_APP_SECRET_LCD || "",
-        address,
-        keplrOfflineSigner,
-        // @ts-ignore
-        window.getEnigmaUtils(process.env.REACT_APP_CHAIN_ID),
-        {
-            init: {
-                amount: [{ amount: '300000', denom: 'uscrt' }],
-                gas: '300000',
-            },
-            exec: {
-                amount: [{ amount: '500000', denom: 'uscrt' }],
-                gas: '500000',
-            },
-        },
-    );
-
-    const balances: Balances = defaultBalances
-
-    tokens.forEach(async (token) => {
-        if (token.symbol === "scrt") {
-            const scrtrawbalance = await getSCRTBalance(secretjs, keplrCli, address)
-            const scrtbalance = formatWithSixDecimals(divDecimals(scrtrawbalance.balance[0].amount, 6));
-            balances["scrt"] = { rawAmount: Number(scrtrawbalance.balance[0].amount), amount: scrtbalance }
-            return
-        }
-
-        const result = await getSnip20Balance({
-            keplr: keplrCli,
-            secretjs,
-            chainId: process.env.REACT_APP_CHAIN_ID || "",
-            address,
-            tokenAddress: token.address,
-            decimals: token.decimals
-        })
-
-        if (result.error) {
-            balances[token.symbol].rawAmount = 0
-            balances[token.symbol].amount = result.message || ""
-            return
-        }
-
-        balances[token.symbol].rawAmount = Number(result.values.balance)
-        balances[token.symbol].amount = formatWithSixDecimals(result.values.balance)
-    })
-
-    return { secretjs, address, balances }
-}
 
 export const getSCRTBalance = async (secretjs: any, keplrCli: any, address: string) => {
     if (!secretjs || !keplrCli) return undefined
@@ -200,6 +100,26 @@ export const getSnip20Balance = async (params: {
     return response;
 };
 
+export const checkCollectionViewingKey = async (params: {
+    keplr: any,
+    chainId: string;
+    tokenAddress: string;
+}): Promise<Response> => {
+    let { keplr, chainId, tokenAddress } = params;
+    const response: Response = { error: false };
+
+    try {
+        const viewingKey = await keplr.getSecret20ViewingKey(chainId, tokenAddress);
+        response.error = false
+        response.message = WITH_VIEWINGKEY
+        return response;
+    } catch (error) {
+        response.error = true
+        response.message = UNLOCK_TOKEN
+        return response;
+    }
+};
+
 
 const WalletProvider = (props: any) => {
 
@@ -207,23 +127,22 @@ const WalletProvider = (props: any) => {
 
     React.useEffect(() => {
         if (!state.keplrCli) return
-        setState({ ...state, loadingWallet: true })
-        const _connect = async () => {
-            const { secretjs, address, balances } = await WalletFetcher(state.keplrCli)
-            setState({ ...state, secretjs, loadingWallet: false, connected: true, address, balances })
-        }
-        _connect()
-
+        connectWallet()
     }, [state.keplrCli]);
 
     React.useEffect(() => {
+
         const keplrCheckInterval = setInterval(async () => {
+
             setState({ ...state, loadingCli: true })
             // @ts-ignore
             const isKeplrCli = !!window.keplr && !!window.getOfflineSigner && !!window.getEnigmaUtils;
             if (isKeplrCli) {
                 // @ts-ignore
-                setState({ ...state, loadingCli: false, keplrCli: window.keplr })
+                setState({ ...state, keplrCli: window.keplr })
+                clearInterval(keplrCheckInterval);
+            } else {
+                setState({ ...state, loadingCli: false, isKeplrCli, loadingWallet: false })
                 clearInterval(keplrCheckInterval);
             }
 
@@ -231,11 +150,136 @@ const WalletProvider = (props: any) => {
 
     }, []);
 
+
+    const WalletFetcherPromise = (keplrCli: any) => new Promise(async (resolve, reject) => {
+
+        // Setup Secret Testnet (not needed on mainnet)
+
+        if (process.env.REACT_APP_ENV !== 'MAINNET') {
+            await keplrCli.experimentalSuggestChain({
+                chainId: process.env.REACT_APP_CHAIN_ID,
+                chainName: process.env.REACT_APP_CHAIN_ID,
+                rpc: process.env.REACT_APP_RPC,
+                rest: process.env.REACT_APP_REST,
+                bip44: {
+                    coinType: 529,
+                },
+                coinType: 529,
+                stakeCurrency: {
+                    coinDenom: 'SCRT',
+                    coinMinimalDenom: 'uscrt',
+                    coinDecimals: 6,
+                },
+                bech32Config: {
+                    bech32PrefixAccAddr: 'secret',
+                    bech32PrefixAccPub: 'secretpub',
+                    bech32PrefixValAddr: 'secretvaloper',
+                    bech32PrefixValPub: 'secretvaloperpub',
+                    bech32PrefixConsAddr: 'secretvalcons',
+                    bech32PrefixConsPub: 'secretvalconspub',
+                },
+                currencies: [
+                    {
+                        coinDenom: 'SCRT',
+                        coinMinimalDenom: 'uscrt',
+                        coinDecimals: 6,
+                    },
+                ],
+                feeCurrencies: [
+                    {
+                        coinDenom: 'SCRT',
+                        coinMinimalDenom: 'uscrt',
+                        coinDecimals: 6,
+                    },
+                ],
+                gasPriceStep: {
+                    low: 0.1,
+                    average: 0.25,
+                    high: 0.4,
+                },
+                features: ['secretwasm'],
+            });
+        }
+
+        try {
+
+            const timeout = setTimeout(() => {
+                setState({ ...state, loadingWallet: false })
+                clearInterval(timeout)
+            }, 2000)
+
+            await keplrCli.enable(process.env.REACT_APP_CHAIN_ID);
+            clearInterval(timeout)
+
+            // @ts-ignore
+            const keplrOfflineSigner = window.getOfflineSigner(process.env.REACT_APP_CHAIN_ID);
+            const accounts = await keplrOfflineSigner.getAccounts();
+
+            const address = accounts[0].address;
+
+            const secretjs = new SigningCosmWasmClient(
+                process.env.REACT_APP_SECRET_LCD || "",
+                address,
+                keplrOfflineSigner,
+                // @ts-ignore
+                window.getEnigmaUtils(process.env.REACT_APP_CHAIN_ID),
+                customFees,
+            )
+
+            const balances: Balances = defaultBalances
+
+            tokens.forEach(async (token) => {
+                if (token.symbol === "scrt") {
+                    const scrtrawbalance = await getSCRTBalance(secretjs, keplrCli, address)
+                    const scrtbalance = formatWithSixDecimals(divDecimals(scrtrawbalance.balance[0].amount, 6));
+                    balances["scrt"] = { rawAmount: Number(scrtrawbalance.balance[0].amount), amount: scrtbalance }
+                    return
+                }
+
+                const result = await getSnip20Balance({
+                    keplr: keplrCli,
+                    secretjs,
+                    chainId: process.env.REACT_APP_CHAIN_ID || "",
+                    address,
+                    tokenAddress: token.address,
+                    decimals: token.decimals
+                })
+
+                if (result.error) {
+                    balances[token.symbol].rawAmount = 0
+                    balances[token.symbol].amount = result.message || ""
+                    return
+                }
+
+                balances[token.symbol].rawAmount = Number(result.values.balance)
+                balances[token.symbol].amount = formatWithSixDecimals(result.values.balance)
+                resolve({ secretjs, address, balances })
+
+            })
+
+        } catch (error) {
+            reject()
+        }
+    })
+
+
+    const connectWallet = async () => {
+        if (!state.keplrCli) return
+
+        setState({ ...state, loadingCli: false, loadingWallet: true })
+        WalletFetcherPromise(state.keplrCli).then((result: any) => {
+            if (!result) return
+            setState({ ...state, loadingWallet: false, connected: true, secretjs: result.secretjs, address: result.address, balances: result.balances })
+        }).catch(error => {
+            setState({ ...state, loadingWallet: false, connected: true })
+        })
+    }
+
     return (
-        <WalletContext.Provider value={[state, setState]}>
+        <WalletContext.Provider value={[state, connectWallet]}>
             {props.children}
         </WalletContext.Provider>
     );
 }
 
-export { WalletContext, WalletProvider, WalletFetcher };
+export { WalletContext, WalletProvider };

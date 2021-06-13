@@ -9,6 +9,8 @@ const socketio = require("socket.io");
 const path = require("path");
 const cors = require("cors");
 const { fetchSCRTPrice } = require("./utils");
+const mongo = require("mongodb").MongoClient;
+const { secretConnection } = require("./secret");
 
 const app = express();
 const limiter = rateLimit({ windowMs: 1000, max: 65 });
@@ -24,12 +26,34 @@ const io = socketio(server, {
     }
 });
 
+
 const clients = new Map();
 let scrtprice = [];
+global.databse = null;
+global.dbcollections = null;
+global.secretjs = null;
 
-fetchSCRTPrice((prices) => {
-    scrtprice = prices;
-});
+console.log('db', process.env.MONGODB_URL)
+mongo.connect(
+    process.env.MONGODB_URL,
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    async (err, client) => {
+        if (err) return console.error(err);
+        const database = client.db("secretnfts");
+        global.database = database;
+        global.dbcollections = database.collection("collections");
+        global.secretjs = await secretConnection();
+        console.log('global.secretjs', global.secretjs)
+        //global.dbcollections.remove({}, function (err, removed) { });
+
+        fetchSCRTPrice((prices) => {
+            scrtprice = prices;
+        });
+    }
+);
+
+
+
 
 io.on("connection", (socket) => {
     clients.set(socket.id, { socket, timestamp: new Date().getTime(), id: socket.id });
@@ -40,6 +64,37 @@ io.on("connection", (socket) => {
             scrtprice
         };
         callback(response);
+    });
+
+    socket.on("getCollection", (address, callback) => {
+        global.dbcollections.findOne({ "address": address }, (err, result) => {
+            callback(result)
+        });
+    });
+
+    socket.on("getCollections", (params, callback) => {
+        const query = params.from ? { "from": params.from } : {}
+        const limit = params.limit || 10
+        const ascending = params.ascending ? 1 : -1
+
+        global.dbcollections.find(query).sort({ _id: ascending }).limit(limit).toArray(function (err, result) {
+            callback(result || [])
+        });
+    });
+
+
+    socket.on("createCollection", (name, symbol, address, from, callback) => {
+        const collection = {
+            name,
+            symbol,
+            address,
+            from
+        }
+
+        global.dbcollections.insertOne(collection, (err) => {
+            callback({ error: false, collection });
+        });
+
     });
 
     socket.on("disconnect", function () {

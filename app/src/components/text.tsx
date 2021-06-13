@@ -9,11 +9,11 @@ export enum SIZE {
   label = `16px`,
   title = `24px`,
   section = `40px`,
-  header = `96px`,
+  header = `70px`,
 }
 
 type Props = {
-  size?: SIZE;
+  size?: "note" | "normal" | "label" | "title" | "section" | "header";
   weight?: string | number;
   spacing?: string,
   lineHeight?: string | number,
@@ -22,6 +22,7 @@ type Props = {
   gradientTwo?: string;
   style?: any;
   children?: ReactNode;
+  [x: string]: any
 };
 
 export default function Text({
@@ -45,7 +46,7 @@ export default function Text({
         css`
           width: fit-content;
           color: ${color || theme.color.white};
-          font-size: ${size || SIZE.normal};
+          font-size: ${size ? SIZE[size] : SIZE.normal};
           font-weight: ${weight || 500};
           letter-spacing: ${spacing || `normal`};
           line-height: ${lineHeight || `normal`};
@@ -56,7 +57,7 @@ export default function Text({
           ${withGradient && `-webkit-background-clip: text;`}
           ${withGradient && `-webkit-text-fill-color: transparent;`}
                 
-                display: inline-block;
+          display: inline-block;
         `,
         style,
       ])}

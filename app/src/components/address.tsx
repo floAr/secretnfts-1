@@ -18,7 +18,7 @@ export default function Address({
     onClick={() => {
       if (!toCopy) return
       navigator.clipboard.writeText(address)
-      CreateNotification('Copied!', '')
+      CreateNotification('Copied!')
     }}
   >
     {truncateAddressString(address, charactersNumber)}

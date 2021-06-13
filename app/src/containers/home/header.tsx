@@ -7,6 +7,7 @@ import Button from "../../components/button";
 import Text from "../../components/text";
 import { SIZE } from "../../components/text";
 import Icon from "../../components/icon";
+import { HashLink } from 'react-router-hash-link';
 
 import twitterIcon from "../../images/icons/twitter.svg";
 import githubIcon from "../../images/icons/github.svg";
@@ -44,8 +45,10 @@ export default function MyHeader() {
             padding: ${theme.spacing.large}px;
           `)}
       >
-        <span
-          className={cx(css`
+        <Text
+          weight={600}
+          size={"header"}
+          style={cx(css`
               font-weight: 600;
               font-size: 96px;
               line-height: 106px;
@@ -54,13 +57,20 @@ export default function MyHeader() {
               margin: 100px 0;
             `)}
         >
-          Lorem Ipsum
-          </span>
-        <Button onClick={async () => { }}>
-          <Text weight={"bold"} size={SIZE.title}>
-            Create Your Secret NFTs
-            </Text>
-        </Button>
+          Take full control of your Art
+          </Text>
+
+        <HashLink
+          to={"/#create"}
+          smooth
+          className={cx(css`margin-right:${theme.spacing.large}px; cursor: pointer;text-decoration: none;`)}>
+          <Button onClick={async () => { }}>
+            <Text weight={"500"} size={"title"}>
+              Create Your Secret NFTs
+          </Text>
+          </Button>
+        </HashLink>
+
 
         <div
           className={cx(css`
@@ -69,7 +79,7 @@ export default function MyHeader() {
             `)}
         >
           <Text
-            size={SIZE.title}
+            size={"title"}
             style={cx(
               css`
                   margin-top: 100px;

@@ -88,7 +88,7 @@ export default function MyToggle({
       {label &&
         <Text
           color={theme.color.black}
-          weight={500} size={SIZE.normal}
+          weight={500} size={"normal"}
           style={cx(css`margin-left: ${theme.spacing.small}px; margin-top: 2px;`)}>{label}
         </Text>}
     </div>)

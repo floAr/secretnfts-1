@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"; // we need this to make JSX compile
 import cx from "classnames";
 import { css } from "@emotion/css";
-import Text, { SIZE } from "./text";
+import Text from "./text";
 import { ThemeContext } from "../contexts/ThemeContext";
 
 interface TAB {
@@ -32,7 +32,7 @@ export default function Tabs({ tabs, selectedIndex, onChange }: Props) {
         )}
       >
         {tabs.map((tab, index) => (
-          <React.Fragment>
+          <React.Fragment key={index}>
 
             <div
               onClick={() => onChange(index)}
@@ -53,7 +53,7 @@ export default function Tabs({ tabs, selectedIndex, onChange }: Props) {
             `)}
             >
               <Text
-                size={SIZE.title}
+                size={"title"}
                 weight={"600"}
                 spacing={"0.04em"}
                 color={

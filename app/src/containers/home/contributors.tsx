@@ -133,7 +133,7 @@ const Contributors = () => {
           weight={'500'}
           gradientOne={theme.color.orange}
           gradientTwo={theme.color.pink}
-          size={SIZE.section}
+          size={"section"}
           style={css(`margin-bottom: 50px; position: relative;`)}
         >
           Contributors

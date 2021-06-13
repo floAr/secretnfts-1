@@ -55,7 +55,7 @@ const ContributorCard: FC<Props> = ({ name, image, position, socials }) => {
         `)}
       />
       <Text
-        size={SIZE.title}
+        size={"title"}
         color={theme.color.blacklight}
         weight={500}
         style={css`
@@ -74,7 +74,7 @@ const ContributorCard: FC<Props> = ({ name, image, position, socials }) => {
         {name}
       </Text>
       <Text
-        size={SIZE.label}
+        size={"label"}
         color={theme.color.blacklight}
         spacing="0.15px"
         weight={400}

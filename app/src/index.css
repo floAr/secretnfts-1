@@ -91,50 +91,6 @@ body {
   src: url('./fonts/Poppins-Bold.ttf');
 }
 
-.notification-container {
-  width: 450px !important;
-}
-
-.notification {
-  border-radius: 5px !important;
-  box-shadow: none !important;
-  color: #14142b !important;
-  font-size: 16px !important;
-  line-height: unset !important;
-  opacity: 1 !important;
-  padding: 16px 24px 16px 48px !important;
-}
-
-.notification::before {
-  height: 24px !important;
-  width: 24px !important;
-}
-
-.notification-success {
-  background-color: #e0f6dc !important;
-}
-.notification-success::before {
-  color: #189a00;
-}
-
-.notification-info {
-  background-color: #f4f4f4 !important;
-}
-.notification-info::before {
-  color: #14142b !important;
-}
-
-.notification-warning {
-  background-color: #fff4cf !important;
-  color: #b66709 !important;
-}
-.notification-warning::before {
-  color: #b66709;
-}
-
-.notification-error {
-  background-color: #fde6e9 !important;
-}
-.notification-error::before {
-  color: #ed2e7e;
+.Toastify__toast-container--top-right{
+  top: 90px !important;
 }

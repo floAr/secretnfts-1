@@ -33,7 +33,7 @@ export default function Textarea({
       width: 100%; 
 
     `, style])}>
-      <Text color={theme.color.black} weight={400} size={SIZE.label} style={cx(css`margin-bottom: ${theme.spacing.small}px;`)}>{label}</Text>
+      <Text color={theme.color.black} weight={400} size={"label"} style={cx(css`margin-bottom: ${theme.spacing.small}px;`)}>{label}</Text>
 
       <textarea
         required={required}

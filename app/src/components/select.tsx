@@ -3,7 +3,7 @@ import cx from "classnames";
 import { css } from '@emotion/css'
 import { ThemeContext } from "../contexts/ThemeContext"
 import Select, { components } from "react-select";
-import Text, { SIZE } from "./text"
+import Text from "./text"
 
 type Props = {
     loading?: boolean;
@@ -34,12 +34,12 @@ export default function ReactSelect({
                 color: ${theme.color.black};
                 align-items: center;
             `)}>
-                <img
+                {props.data.icon && <img
                     className={cx(css`margin-right: 15px; border-radius: 100%;`)}
                     src={props.data.icon}
                     style={{ width: 25 }}
                     alt={props.data.label}
-                />
+                />}
                 <span>{props.data.label}</span>
             </div>
 
@@ -53,19 +53,32 @@ export default function ReactSelect({
             borderRadius: '16px',
             display: 'flex',
             height: '58px',
-
+            padding: '0 20px'
+        }),
+        menuList: () => ({
+            paddingBottom: '0px',
+            paddingTop: '0px',
+            maxHeight: '200px',
+            overflow: 'auto'
         }),
         menu: () => ({
+            marginTop: '5px',
+            borderRadius: '5px',
+            border: `1px solid ${theme.color.greylight}`,
             backgroundColor: '#F7F7FC',
+
         }),
         //@ts-ignore
         option: (styles: any, { data, isDisabled, isFocused, isSelected }) => {
             return {
                 ...styles,
-                backgroundColor: isFocused || isSelected ? (isSelected ? '#2b2b2c' : '#414142') : 'inherit',
+                minHeight: '50px',
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: isFocused || isSelected ? (isSelected ? theme.color.greylight : theme.color.white) : 'inherit',
                 ':active': {
                     ...styles[':active'],
-                    backgroundColor: '#2b2b2c'
+                    backgroundColor: theme.color.greylight
                 },
             };
         },
@@ -74,9 +87,9 @@ export default function ReactSelect({
 
     return (
         <div className={cx(css`display: flex; flex-direction: column; width: 100%;`)}>
-            <Text color={theme.color.black} weight={400} size={SIZE.label} style={cx(css`margin-bottom: ${theme.spacing.small}px;`)}>{label}</Text>
+            <Text color={theme.color.black} weight={400} size={"label"} style={cx(css`margin-bottom: ${theme.spacing.small}px;`)}>{label}</Text>
             <Select
-                menuPosition="fixed"
+                menuPosition={"absolute"}
                 styles={customStyles}
                 value={value}
                 isDisabled={disabled}

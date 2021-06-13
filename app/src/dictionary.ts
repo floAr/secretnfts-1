@@ -169,8 +169,8 @@ export const dictionary: dictionary = {
   },
 
   STEP0_TEXT: {
-    en: `Create a collection for your nfts`,
-    pt: '',
+    en: `Create a collection for your NFTs`,
+    pt: ""
   },
 
   STEP1_TEXT: {

@@ -1,7 +1,6 @@
-import 'react-notifications/lib/notifications.css'
-
+import { ToastContainer, toast, ToastOptions } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import React from 'react'
-import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 type HeaderState = {
   userAddress?: string
@@ -17,24 +16,40 @@ const HeaderContext = React.createContext<HeaderParams>([{}, () => null])
 
 const CreateNotification = (
   message: string,
-  title?: string,
-  timeout = 1500,
-  type = 'info',
+  timeout = 5000,
+  type?: string,
   callback = () => null
 ) => {
+
+  const body: ToastOptions = {
+    position: "top-right",
+    autoClose: timeout,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    onClick: callback
+  }
+
+
   switch (type) {
     case 'info':
-      NotificationManager.info(message, title, timeout, () => callback())
+      toast.info(message, body)
       break
     case 'success':
-      NotificationManager.success(message, title, timeout, () => callback())
+      toast.success(message, body)
       break
     case 'warning':
-      NotificationManager.warning(message, title, timeout, () => callback())
+      toast.warn(message, body)
       break
     case 'error':
-      NotificationManager.error(message, title, timeout, () => callback())
+      toast.error(message, body)
       break
+    default:
+      toast(message, body)
+
+      break;
   }
 }
 
@@ -47,7 +62,17 @@ const HeaderProvider = (props: any) => {
 
   return (
     <HeaderContext.Provider value={[state, setState]}>
-      <NotificationContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
 
       {props.children}
     </HeaderContext.Provider>

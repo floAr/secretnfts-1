@@ -3,6 +3,7 @@ import cx from "classnames";
 import { css } from '@emotion/css'
 import Modal from "react-modal";
 import closeIcon from '../images/icons/close.svg'
+import Text, { SIZE } from './text'
 import { ThemeContext } from '../contexts/ThemeContext';
 
 type Props = { isOpen: boolean; onClose: Function; label?: string; title: string, children: ReactNode }
@@ -16,6 +17,7 @@ export default function ReactModal({
 }: Props) {
 
   const [theme] = React.useContext(ThemeContext)
+  const isFirefox = navigator.userAgent.toLowerCase().indexOf("firefox") > -1;
 
   return <Modal
     isOpen={isOpen}
@@ -25,12 +27,29 @@ export default function ReactModal({
     contentLabel={label}
     ariaHideApp={false}
     //@ts-ignore
-    style={theme.modal}
+    style={{
+      overlay: {
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        zIndex: 12,
+        overflowY: "auto",
+      },
+      content: {
+        backgroundImage: "linear-gradient(to top right, #242222, #151414 )",
+        border: "none",
+        padding: "0px",
+        inset: 0,
+        margin: "100px auto",
+        overflow: "inherit",
+        width: "min-content",
+        height: "min-content",
+        display: isFirefox ? "inline-table" : "flex",
+      }
+    }}
   >
     <div className={cx(css`
         display: flex;
         flex-direction: column;
-        background-color: #ebebeb;
+        background-color:${theme.color.white};
         min-width: 350px;
         padding: 30px;
     `)}>
@@ -42,8 +61,8 @@ export default function ReactModal({
         font-size: 22px;
         margin-bottom: 30px;
       `)}>
-        <span>{title}</span>
-        <img className={cx(css`cursor: pointer;`)} width={10} alt="close modal" src={closeIcon} onClick={() => onClose()} />
+        <Text gradientOne={theme.color.orange} gradientTwo={theme.color.pink} weight={600} size={"title"}>{title}</Text>
+        <img className={cx(css`cursor: pointer;`)} width={15} alt="close modal" src={closeIcon} onClick={() => onClose()} />
       </div>
       {children}
     </div>

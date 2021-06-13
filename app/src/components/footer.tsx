@@ -40,7 +40,7 @@ const Menu: FC<MenuProps> = ({ title, tabs, theme }) => (
     `)}
   >
     <Text
-      size={SIZE.title}
+      size={"title"}
       weight={400}
       style={css`
         margin-bottom: 24px;
@@ -61,7 +61,7 @@ const Menu: FC<MenuProps> = ({ title, tabs, theme }) => (
     >
       {tabs.map(({ label }) => (
         <Text
-          size={SIZE.label}
+          size={"label"}
           weight={400}
           key={label}
           style={css`
@@ -157,7 +157,7 @@ const Footer = () => {
                 flex-direction: column;
 
                 @media only screen and (max-width: ${theme.breakpoint
-                    .tablet}px) {
+                  .tablet}px) {
                   align-items: center;
                 }
               `
@@ -181,7 +181,7 @@ const Footer = () => {
                     margin-left: 15px;
                   `
                 )}
-                size={SIZE.section}
+                size={"section"}
               >
                 Secret NFTs
               </Text>
@@ -193,12 +193,12 @@ const Footer = () => {
                 css`
                   margin-top: 20px;
                   @media only screen and (max-width: ${theme.breakpoint
-                      .tablet}px) {
+                    .tablet}px) {
                     text-align: center;
                   }
                 `
               )}
-              size={SIZE.normal}
+              size={"normal"}
             >
               {dictionary.FOOTER_TAGLINE[language]}
             </Text>
@@ -210,7 +210,7 @@ const Footer = () => {
                   margin-top: 20px;
                 `
               )}
-              size={SIZE.note}
+              size={"note"}
             >
               © 2021 Secret NFTs
             </Text>
@@ -266,7 +266,7 @@ const Footer = () => {
                 flex: 1;
 
                 @media only screen and (max-width: ${theme.breakpoint
-                    .tablet}px) {
+                  .tablet}px) {
                   align-items: center;
                   flex-direction: column;
                   row-gap: ${theme.spacing.xxlarge}px;

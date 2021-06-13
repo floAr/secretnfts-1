@@ -14,6 +14,8 @@ interface Color {
   greylight: string
   blacklight: string
   offwhite: string
+  warning: string
+  error: string
 }
 
 interface Spacing {
@@ -58,6 +60,8 @@ const theme: Theme = {
     greylight: '#D9DBE9',
     blacklight: '#222222',
     offwhite: '#F7F7FC',
+    warning: '#d8e430',
+    error: '#d84040',
   },
   spacing: {
     xxsmall: 4,
@@ -79,7 +83,7 @@ const theme: Theme = {
 }
 
 type ThemeParams = [Theme, boolean, Function]
-const ThemeContext = React.createContext<ThemeParams>([theme, false, () => {}])
+const ThemeContext = React.createContext<ThemeParams>([theme, false, () => { }])
 
 const ThemeProvider = (props: any) => {
   const [dark, setDark] = React.useState<boolean>(false)

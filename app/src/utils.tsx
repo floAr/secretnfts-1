@@ -4,6 +4,10 @@ const sixDecimalsFormatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 6,
 });
 
+export function urlIPFSAsset(hash: string) {
+  return `${process.env.REACT_APP_IPFS_URL}${hash}`;
+}
+
 export function truncateAddressString(address: string, num = 12) {
   if (!address) {
     return '';

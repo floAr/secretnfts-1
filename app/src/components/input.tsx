@@ -4,7 +4,7 @@ import { css } from '@emotion/css'
 import { ThemeContext } from '../contexts/ThemeContext';
 import Text, { SIZE } from './text'
 
-type Props = { label?: string, placeholder?: string; value: any; required?: boolean; disabled?: boolean; onChange: Function; style?: any; note?: string;[x: string]: any, colorPlaceholder?: any, color?: any, bgColor?: any, bgColorFocus?: any }
+type Props = { label?: string, placeholder?: string; value: any; required?: boolean; disabled?: boolean; onChange: Function; style?: any; note?: string;[x: string]: any, colorPlaceholder?: any, color?: any, bgColor?: any, bgColorFocus?: any, transform?: string }
 
 
 export default function Input({
@@ -20,6 +20,7 @@ export default function Input({
   colorPlaceholder,
   bgColor,
   bgColorFocus,
+  transform,
   ...props
 }: Props) {
 
@@ -32,7 +33,7 @@ export default function Input({
       width: 100%; 
 
     `, style])}>
-      <Text color={theme.color.black} weight={400} size={SIZE.label} style={cx(css`margin-bottom: ${theme.spacing.small}px;`)}>{label}</Text>
+      {label && <Text color={theme.color.black} weight={400} size={"label"} style={cx(css`margin-bottom: ${theme.spacing.small}px;`)}>{label}</Text>}
 
       <input
         required={required}
@@ -46,7 +47,7 @@ export default function Input({
           height: 40px;
           width: 100%;
           padding: 0 20px;
-          
+          text-transform: ${transform || 'none'};
           color: ${color || theme.color.black};
           outline: none;
           transition: 0.5s ease;
@@ -56,7 +57,9 @@ export default function Input({
           background-color: ${bgColor || `#F7F7FC`}; 
           border: 1px solid ${theme.color.greylight}; 
           border-radius: 16px;
-          
+          :disabled{
+            opacity: .6; 
+          }
           ::placeholder { 
             color: ${colorPlaceholder || theme.color.black};
             opacity: 0.6;

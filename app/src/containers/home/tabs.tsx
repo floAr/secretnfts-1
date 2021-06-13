@@ -36,13 +36,13 @@ export default function MyTabs() {
             `)}
         >
             <Text
-                size={SIZE.label}
+                size={"label"}
                 spacing={"0.04em"}
                 gradientOne={selected ? theme.color.orange : theme.color.grey}
                 gradientTwo={selected ? theme.color.pink : theme.color.grey}>{title}</Text>
             <Text
                 style={css`margin-top: ${theme.spacing.small}px;`}
-                size={SIZE.normal}
+                size={"normal"}
                 lineHeight={"18px"}
                 spacing={"0.07em"}
 
@@ -133,14 +133,10 @@ export default function MyTabs() {
     };
 
     return (
-        <div className={cx(css`
+        <div id="why" className={cx(css`
           display: flex;
           flex-direction: column;
           align-items: center;
-          width: 100%;
-          padding: 100px 50px;
-          max-width: 1200px;
-          box-sizing: border-box;
         `)}
         >
             <span
@@ -159,7 +155,7 @@ export default function MyTabs() {
                 weight={"500"}
                 gradientOne={theme.color.orange}
                 gradientTwo={theme.color.pink}
-                size={SIZE.section}
+                size={"section"}
                 style={css(`margin-bottom: 50px`)}
             >
                 {dictionary.WHY_NFT[language]}

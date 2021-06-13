@@ -17,6 +17,7 @@ export default function Dropzone({ file, onChange = () => { }, message, note, st
 
   const onDrop = (acceptedFile: Array<any>) => {
     const file = acceptedFile[0];
+    if (!file) return
     Object.assign(file, {
       preview: URL.createObjectURL(file),
     });
@@ -33,8 +34,8 @@ export default function Dropzone({ file, onChange = () => { }, message, note, st
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     multiple: false,
+    accept: 'image/jpg, image/jpeg, image/png, image/gif'
   });
-
   return <div className={cx([css`
     width: 100%;     
     background-color: ${file ? theme.color.greylight : `#F7F7FC`};
@@ -45,10 +46,10 @@ export default function Dropzone({ file, onChange = () => { }, message, note, st
     <div
       {...getRootProps()}
       className={cx(css`
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-  `)}>
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    `)}>
       <input {...getInputProps()} accept="image/*" />
       {!file ? (
         <div className={cx(css`
@@ -64,8 +65,8 @@ export default function Dropzone({ file, onChange = () => { }, message, note, st
             opacity: .5;
           `)}>
             <img src={uploadIcon} width={150} />
-            <Text lineHeight={"30px"} style={css`text-align:center;`} size={SIZE.title} color={theme.color.greylight}>{message}</Text>
-            <Text weight={"400"} style={css`margin-top: ${theme.spacing.medium}px;`} size={SIZE.label} color={theme.color.greylight}>{note}</Text>
+            <Text lineHeight={"30px"} style={css`text-align:center;`} size={"title"} color={theme.color.grey}>{message}</Text>
+            <Text weight={"400"} style={css`margin-top: ${theme.spacing.medium}px;`} size={"label"} color={theme.color.grey}>{note}</Text>
           </div>
         </div>
       ) : (
