@@ -108,6 +108,11 @@ export default function CreateNFT({ collection }: Props) {
 
     const onCreateNFT = async () => {
         if (!nft.name || !imageFile) return CreateNotification(`Please add name and a media file`, 5000, "error")
+        let hasBlank = false
+        nft.properties.forEach((property: PROPERTY) => {
+            if (!property.value || !property.label) hasBlank = true
+        })
+        if (hasBlank) return CreateNotification(`Missing property fields`, 5000, "error")
 
         setResult({ ...result, loading: true })
         const uploadPromise = (file: FILE_TO_UPLOAD) => new Promise(async (resolve, reject) => {
@@ -206,10 +211,9 @@ export default function CreateNFT({ collection }: Props) {
                 }
 
                 if (response.token_id) {
-                    collservices.fetchNFTs(collection.value, [response.token_id], () => {
-                        setModal(true)
-                        CreateNotification(`NFT created succefully!`, 5000, "success")
-                    })
+                    setModal(true)
+                    CreateNotification(`NFT created succefully!`, 5000, "success")
+                    collservices.fetchFullCollection(collection.value, () => { })
 
                 }
 

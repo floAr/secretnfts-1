@@ -27,6 +27,7 @@ export default function NFTsBanner({ nfts }: Props) {
     box-shadow: 0px 2px 10px -1px ${theme.color.black};
   `)}>
     {nfts.map((nft, index) => {
+      if (!nft.image && !nft.thumbnail) return
       const url = urlIPFSAsset(nft.image || nft.thumbnail || "")
       return (
         <div key={`${index}_image_banner`} className={cx(css`

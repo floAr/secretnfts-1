@@ -28,7 +28,7 @@ const getOfflineSecretJS = async () => {
     const txEncryptionSeed = EnigmaUtils.GenerateNewSeed();
 
     const secretjs = new SigningCosmWasmClient(
-        process.env.REACT_APP_SECRET_LCD || "",
+        process.env.REACT_APP_SECRET_REST || '',
         accAddress,
         (signBytes) => signingPen.sign(signBytes),
         txEncryptionSeed,

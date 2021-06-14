@@ -277,8 +277,9 @@ const WalletProvider = (props: any) => {
           balances[token.symbol].amount = formatWithSixDecimals(
             result.values.balance
           )
+          resolve({ secretjs, address, balances })
+
         })
-        resolve({ secretjs, address, balances })
       } catch (error) {
         reject()
       }
