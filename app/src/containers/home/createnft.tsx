@@ -233,8 +233,12 @@ export default function CreateNFT({ collection }: Props) {
     const renderShield = (icon: any, label: string, id: string, description: string) => {
 
         return (
-            <div className={cx(css`
+            <div
+                data-for={id}
+                data-tip={description}
+                className={cx(css`
                 display: flex; 
+                cursor: pointer;
                 align-items:center;
                 & > * {
                     margin-right: ${theme.spacing.xxsmall}px;
@@ -245,8 +249,7 @@ export default function CreateNFT({ collection }: Props) {
                 <img
                     src={questionIcon}
                     width={12}
-                    data-for={id}
-                    data-tip={description}
+
                 />
                 <ReactTooltip
                     id={id}
@@ -263,14 +266,14 @@ export default function CreateNFT({ collection }: Props) {
         const renderPropertie = (propertie: PROPERTY, index: number) => {
             return (
                 <div key={index} className={cx(css`
-                display: flex; 
-                margin-bottom: ${theme.spacing.small}px; 
-                align-items: center;
-                justify-content: flex-start;
-                & > * {
-                    margin-right: ${theme.spacing.xsmall}px; 
-                }
-            `)}>
+                    display: flex; 
+                    margin-bottom: ${theme.spacing.small}px; 
+                    align-items: center;
+                    justify-content: flex-start;
+                    & > * {
+                        margin-right: ${theme.spacing.xsmall}px; 
+                    }
+                `)}>
                     <Input placeholder={`Name`} onChange={(v: string) => {
                         const properties = nft.properties
                         properties[index].label = v
@@ -408,8 +411,8 @@ export default function CreateNFT({ collection }: Props) {
                                     color={theme.color.black}
                                     weight={500} size={"normal"}
                                     style={cx(css`cursor: pointer; margin-left: ${theme.spacing.small}px; margin-top: 2px;`)}>
-                                    Protect Original File
-                            </Text>
+                                    Protect Original Image
+                                </Text>
                                 <ReactTooltip
                                     id="protect"
                                     place={"bottom"}

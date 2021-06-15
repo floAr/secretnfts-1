@@ -43,24 +43,32 @@ global.secretjs = null;
 
 console.log("db", process.env.MONGO_URL);
 mongo.connect(
-  process.env.MONGO_URL,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  async (err, client) => {
-    if (err) return console.error(err);
-    const database = client.db("secretnfts");
-    global.database = database;
-    global.dbcollections = database.collection("collections");
-    global.secretjs = await secretConnection();
-    console.log("global.secretjs", global.secretjs);
-    //global.dbcollections.remove({}, function (err, removed) { });
 
-    fetchSCRTPrice((prices) => {
-      scrtprice = prices;
-    });
-  }
+    process.env.MONGO_URL,
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    async (err, client) => {
+        if (err) return console.error(err);
+        const database = client.db("secretnfts");
+        global.database = database;
+        global.dbcollections = database.collection("collections");
+        global.secretjs = await secretConnection();
+        console.log('global.secretjs', global.secretjs)
+        //global.dbcollections.remove({}, function (err, removed) { });
+        try {
+            const info = await global.secretjs.txById("709011805998EF49A4FA68FB1EAE9AFF75702F13B700B1ABA3166DEACC03BD13");
+            console.log('info', info)
+        } catch (error) {
+
+        }
+        fetchSCRTPrice((prices) => {
+            scrtprice = prices;
+        });
+    }
+
 );
 
 io.on("connection", (socket) => {
+
   clients.set(socket.id, {
     socket,
     timestamp: new Date().getTime(),
@@ -78,6 +86,7 @@ io.on("connection", (socket) => {
   socket.on("getCollection", (address, callback) => {
     global.dbcollections.findOne({ address: address }, (err, result) => {
       callback(result);
+
     });
   });
 
