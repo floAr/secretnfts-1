@@ -2,8 +2,8 @@ import io from 'socket.io-client';
 import { GET_COLLECTIONS_PARAMS } from './constants';
 
 //@ts-ignore
-const socket = io.connect('http://localhost:8080')
-//const socket = io.connect() //prod
+// const socket = io.connect('http://localhost:8080')
+const socket = io.connect() //prod
 
 const connect = (cb: Function) => {
   return socket.emit('handshake', async (response: any) => {
