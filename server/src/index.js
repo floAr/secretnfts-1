@@ -43,7 +43,7 @@ global.secretjs = null;
 
 console.log("db", process.env.MONGO_URL);
 mongo.connect(
-  process.env.MONGODB_URL,
+  process.env.MONGO_URL,
   { useNewUrlParser: true, useUnifiedTopology: true },
   async (err, client) => {
     if (err) return console.error(err);
