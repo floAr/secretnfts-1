@@ -147,6 +147,7 @@ const WalletProvider = (props: any) => {
       const isKeplrCli =
         // @ts-ignore
         !!window.keplr && !!window.getOfflineSigner && !!window.getEnigmaUtils
+
       if (isKeplrCli) {
         // @ts-ignore
         setState({ ...state, keplrCli: window.keplr })
@@ -241,45 +242,52 @@ const WalletProvider = (props: any) => {
 
         const balances: Balances = defaultBalances
 
-        tokens.forEach(async (token) => {
-          if (token.symbol === 'scrt') {
-            const scrtrawbalance = await getSCRTBalance(
-              secretjs,
-              keplrCli,
-              address
-            )
-            const scrtbalance = formatWithSixDecimals(
-              divDecimals(scrtrawbalance.balance[0].amount, 6)
-            )
-            balances['scrt'] = {
-              rawAmount: Number(scrtrawbalance.balance[0].amount),
-              amount: scrtbalance,
-            }
-            return
-          }
+        // tokens.forEach(async (token) => {
+        //   if (token.symbol === 'scrt') {
+        const scrtrawbalance = await getSCRTBalance(
+          secretjs,
+          keplrCli,
+          address
+        )
 
-          const result = await getSnip20Balance({
-            keplr: keplrCli,
-            secretjs,
-            chainId: process.env.REACT_APP_CHAIN_ID || '',
-            address,
-            tokenAddress: token.address,
-            decimals: token.decimals,
-          })
+        if (!scrtrawbalance) {
+          return resolve({ secretjs, address: LOADING, balances })
+        }
 
-          if (result.error) {
-            balances[token.symbol].rawAmount = 0
-            balances[token.symbol].amount = result.message || ''
-            return
-          }
+        const scrtbalance = formatWithSixDecimals(
+          divDecimals(scrtrawbalance.balance[0].amount, 6)
+        )
+        balances['scrt'] = {
+          rawAmount: Number(scrtrawbalance.balance[0].amount),
+          amount: scrtbalance,
+        }
+        return resolve({ secretjs, address, balances })
+        // }
 
-          balances[token.symbol].rawAmount = Number(result.values.balance)
-          balances[token.symbol].amount = formatWithSixDecimals(
-            result.values.balance
-          )
-          resolve({ secretjs, address, balances })
+        // const result = await getSnip20Balance({
+        //   keplr: keplrCli,
+        //   secretjs,
+        //   chainId: process.env.REACT_APP_CHAIN_ID || '',
+        //   address,
+        //   tokenAddress: token.address,
+        //   decimals: token.decimals,
+        // })
 
-        })
+        // if (result.error) {
+        //   balances[token.symbol].rawAmount = 0
+        //   balances[token.symbol].amount = result.message || ''
+        //   return resolve({ secretjs, address, balances })
+        // }
+
+        // balances[token.symbol].rawAmount = Number(result.values.balance)
+        // balances[token.symbol].amount = formatWithSixDecimals(
+        //   result.values.balance
+        // )
+
+        // resolve({ secretjs, address, balances })
+
+        //})
+
       } catch (error) {
         reject()
       }
@@ -287,11 +295,17 @@ const WalletProvider = (props: any) => {
 
   const connectWallet = async () => {
     if (!state.keplrCli) return
-
     setState({ ...state, loadingCli: false, loadingWallet: true })
     WalletFetcherPromise(state.keplrCli)
       .then((result: any) => {
-        if (!result) return
+        if (!result) {
+          setState({
+            ...state,
+            loadingWallet: false,
+            connected: true,
+          })
+          return
+        }
         setState({
           ...state,
           loadingWallet: false,
@@ -302,6 +316,8 @@ const WalletProvider = (props: any) => {
         })
       })
       .catch((error) => {
+        console.log('error', error)
+
         setState({ ...state, loadingWallet: false, connected: true })
       })
   }

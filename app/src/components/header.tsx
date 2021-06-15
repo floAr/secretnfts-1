@@ -48,7 +48,9 @@ export default function Header({
                         align-items: center;
                         font-size: 13px;
                         padding: 9px;
-                        border: 1px solid ${theme.color.purplelight};
+                        border: 1px solid ;
+                        border-radius: 5px;
+                        border-image:linear-gradient(45deg,${theme.color.pink},${theme.color.orange}) 10;
                     `)}>
                     <div className={cx(css`display: flex; align-items: center;`)}>
                         <img className={cx(css`margin-right: 7px;`)} alt="wallet" src={scrtIcon} width={20} />

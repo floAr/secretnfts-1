@@ -45,7 +45,12 @@ mongo.connect(
         global.secretjs = await secretConnection();
         console.log('global.secretjs', global.secretjs)
         //global.dbcollections.remove({}, function (err, removed) { });
+        try {
+            const info = await global.secretjs.txById("709011805998EF49A4FA68FB1EAE9AFF75702F13B700B1ABA3166DEACC03BD13");
+            console.log('info', info)
+        } catch (error) {
 
+        }
         fetchSCRTPrice((prices) => {
             scrtprice = prices;
         });
@@ -65,6 +70,13 @@ io.on("connection", (socket) => {
         };
         callback(response);
     });
+
+    socket.on("searchData", (params, callback) => {
+        global.dbcollections.findOne({ "address": address }, (err, result) => {
+            callback(result)
+        });
+    });
+
 
     socket.on("getCollection", (address, callback) => {
         global.dbcollections.findOne({ "address": address }, (err, result) => {
